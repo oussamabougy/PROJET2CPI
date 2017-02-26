@@ -1,0 +1,37 @@
+
+		
+		
+		body {
+		    font-weight: bold;
+		    font-family:Times New Roman;
+		}
+		#firstname {
+    background-color: yellow;
+}
+		.ui-slidemenu .ui-slidemenu-content{
+			height: 200px !important;
+		}
+		 
+		.ui-slidemenu .ui-slidemenu-wrapper{
+			height: 230px !important;
+			                 
+		}
+		.ui-selectoneradio label{
+			font-family: Comic Sans MS;
+    		font-weight: normal;
+		}
+		.ui-widget {
+    		font-family: Times New Roman !important;
+    		font-size: 20px !important;
+		}
+		.ui-widget-content{
+			    border: 1px solid #eed3d7;
+		}
+		.ui-panel .ui-panel-content {
+
+    padding: .3em .3em !important;
+		}
+		
+		
+		
+	
