@@ -40,6 +40,9 @@ public class EmployeGeneral
 	protected double salaire;
 	protected String role;
 	protected String grade;
+	private String oldpasswrd;
+	private String newpasswrd;
+	private String confirmpasswrd;
 	
 	
 	
@@ -113,6 +116,26 @@ public class EmployeGeneral
 	}
 
 	
+
+
+	public String getOldpasswrd() {
+		return oldpasswrd;
+	}
+	public void setOldpasswrd(String oldp) {
+		this.oldpasswrd = oldp;
+	}
+	public String getNewpasswrd() {
+		return newpasswrd;
+	}
+	public void setNewpasswrd(String newp) {
+		this.newpasswrd = newp;
+	}
+	public String getConfirmpasswrd() {
+		return confirmpasswrd;
+	}
+	public void setConfirmpasswrd(String confirmp) {
+		this.confirmpasswrd = confirmp;
+	}
 
 	//validate login
 	public String login() 
@@ -436,7 +459,84 @@ public class EmployeGeneral
 	//public <type> taux_abscence_justifier_employe_par_annee();
 	//public <type> afficher_info_employe();
 	//public <type> Temps_de_travail();
-	//public <type> changer_mot_passe();
+	public void changemot_passe()
+	{
+		Connection connexion = null;
+		PreparedStatement statement;// pour charger la requete 
+		
+		connexion = Database.loadDatabase();//charger la bd
+		try
+		{
+			if (virifyPass() && confirmPass())
+			{
+				statement = connexion.prepareStatement("update employee set mot_pass =? where matricule = ?;");
+				statement.setInt(2, getMatricule() );
+				statement.setString(1, getNewpasswrd() );
+				statement.executeUpdate();
+			}
+			else 
+			{
+				if(!virifyPass())
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "votre mot de passe est incorrect", "PrimeFaces Rocks."));
+					System.out.println("votre mot de passe est incorrect");
+				}
+				else
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "votre mot de passe de confirmation ne ressemble pas o neauveau mot passe", "PrimeFaces Rocks."));
+					System.out.println("votre mot de passe de confirmation ne ressemble pas o neauveau mot passe");
+				}
+			}
+			
+			
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public boolean virifyPass()
+	{
+		boolean vrfy = false;
+		Connection connexion = null;
+		PreparedStatement statement;// pour charger la requete 
+		ResultSet result = null;
+		connexion = Database.loadDatabase();//charger la bd
+		try
+		{
+			statement=connexion.prepareStatement("select mot_pass from employee where matricule = ?;");
+			statement.setInt(1, getMatricule());
+			result=statement.executeQuery();
+			if (result.next())
+			{
+				String pass = result.getString("mot_pass");
+				if ( pass.equals(getOldpasswrd()))
+				{
+					vrfy=true;
+				}
+				else
+				{
+					vrfy=false;
+				}
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return vrfy;
+	}
+	public boolean confirmPass()
+	{
+		boolean con;
+		if (getConfirmpasswrd().equals(getNewpasswrd()))
+		{
+			con=true;
+		}
+		else
+		{
+			con=false;
+		}
+		return con;
+	}
 	//public <type> salaire_a_avoir();
 	//public <type> historique_de_monpointage();
 	//public <type> get_role();
