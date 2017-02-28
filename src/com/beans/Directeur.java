@@ -109,5 +109,132 @@ public class Directeur extends EmployeGeneral  {
 		return tab;
 	}
 	
+	public	ArrayList<Chart>	tauxAbsenceGeneraleJour(Date debut, Date fin)
+	{	
 	
+		ArrayList<Integer>	listEmployee=new	ArrayList<Integer>();
+		listEmployee = tousLesEmployee();;//remplir la liste par les matricule de	tous	les	employee  pour 
+		//faire la somme des taux la liste va contenir	/matricule0/matricule1/...../matriculei/....
+						
+					
+		ArrayList<Chart> absenceGene = tauxAbsenceEmployeeJour(listEmployee.get(0), debut,  fin);//initialiser	la	liste	
+			//absenceGene <qui va	contenir le	taux d'absecne	generale	>par	le	taux	d'absence	d'employee	0
+		
+		ArrayList<Chart> absenceEmployee = new	ArrayList<Chart>();
+	
+		
+		
+		for(int	i=1	;i<listEmployee.size();i++)
+		{			
+			absenceEmployee = tauxAbsenceEmployeeJour(listEmployee.get(i),debut,fin);//affecter le taux	d'absence	de	chaque
+																		
+
+		//	employee	a	la	liste	absenceEmployee
+
+			for	(int	k=0;k<absenceGene.size();k++)	//boucle	pour	faire	la	somme	des	taux	
+															//et	le	mettre	dans	absenceGene
+			{
+				Chart ch=new	Chart() ;
+				ch.setDate(absenceEmployee.get(k).getDate());
+				ch.setTaux_absence(absenceEmployee.get(k).getTaux_absence()	+	absenceGene.get(k).getTaux_absence
+
+());
+				absenceGene.set(k,ch);
+				
+				
+			}	
+		}	
+		
+		int	size=listEmployee.size()+1;//le	nombre	des	employees	
+		for	(int	k=0;k<absenceGene.size();k++)//boucle	pour	faire	la	devision	sur	le	nombre	d'employee
+		{
+			Chart ch=new	Chart() ;
+			ch.setDate(absenceEmployee.get(k).getDate());
+			ch.setTaux_absence(absenceGene.get(k).getTaux_absence()/size);
+			absenceGene.set(k,ch);
+			
+			
+		}	
+		return	absenceGene;
+	}
+
+	public ArrayList<Integer> tousLesEmployee()
+
+	{
+		PreparedStatement statement;
+        ResultSet resultat;
+        Connection connexion = null;
+        ArrayList<Integer>	listMatricule=	new	ArrayList<Integer>();
+        connexion = Database.loadDatabase();        
+       int	mat=0;
+       try
+        {	
+	
+	///////
+
+	//chercherLesEmployee
+
+    	statement =connexion.prepareStatement("SELECT matricule  FROM employee ;");
+       	resultat=statement.executeQuery();
+
+	//replirLaListe
+       		while(resultat.next())
+       		{
+     			mat=resultat.getInt("matricule");
+     			listMatricule.add(mat);	  
+       	   	 }
+		//////
+
+   	  //ecrireDansLaConsole
+       		for	(int	i=0;	i<listMatricule.size();i++)
+       		{
+       	     	System.out.print(listMatricule.get(i));
+       		}
+   	    	/////
+
+        }
+        catch(SQLException e) 
+        {
+            e.printStackTrace();
+
+        }
+        
+        return	listMatricule;
+	}
+	
+	protected LineChartModel abs1 = new LineChartModel() ;
+	
+	public void defineChart1() 
+	{
+		//System.out.print(getRole(1000001));
+		 SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 String inputString1 = "2017-02-20";
+		 String inputString2 = "2017-02-28";
+		 Date d1 = null,d2 = null;
+		 try {
+		     d1 = myFormat.parse(inputString1);
+		     d2 = myFormat.parse(inputString2);
+		 } catch (ParseException e) {
+		     e.printStackTrace();
+		 }
+		 if(debut != null && fin != null)
+		 {
+			ArrayList<Chart> charts = tauxAbsenceGeneraleJour(debut, fin);
+			abs1 = loadAbs(charts) ;
+			for(Chart chart:charts)
+			{
+				System.out.print("jour:"+chart.getDate()+"nb absence:"+chart.getTaux_absence());
+			}
+		 }
+		
+		//System.out.print(debut+" "+fin);
+	}
+	
+	public LineChartModel getAbs1() {
+		return abs1;
+	}
+
+	public void setAbs1(LineChartModel abs1) {
+		this.abs1 = abs1;
+	}
 }
