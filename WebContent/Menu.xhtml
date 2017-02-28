@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    	<title>home</title>
+    		<h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+    <h:body>
+    	<h:form>    
+	   		<p:dialog header="User Info" widgetVar="userDialog" modal="true" >
+    			<f:facet name="header">
+            		les informations de l'employee
+        		</f:facet>
+ 
+		        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+		              <h:graphicImage value="/Images/user.jpg" /> 
+			          <p:outputPanel>
+			                <h:panelGrid columns="2" cellpadding="5">
+			                
+            					
+			                    <p:panel><h:outputText value="Matricule:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.matricule}" style="font-weight: bold"/></p:panel>
+			                    
+			                    
+			                    <p:panel><h:outputText value="Nom:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.nom}" style="font-weight: bold"/></p:panel>
+			 
+			                    <p:panel><h:outputText value="Prenom:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.prenom}" style="font-weight: bold"/></p:panel>
+			                    
+			                    
+			                    <p:panel><h:outputText value="Le Salaire:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.salaire}" style="font-weight: bold"/></p:panel>
+			                    
+			                    <p:panel><h:outputText value="Le Service:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.nomService}" style="font-weight: bold"/></p:panel>
+			                    
+			                    <p:panel><h:outputText value="Le Departement:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.nomDepartement}" style="font-weight: bold"/></p:panel>
+			                    
+			                    <p:panel><h:outputText value="Le Role:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.role}" style="font-weight: bold"/></p:panel>
+			                    
+			                    <p:panel><h:outputText value="Le Grade:" /></p:panel>
+			                    <p:panel><h:outputText value="#{employe.grade}" style="font-weight: bold"/></p:panel>
+			                    
+			                </h:panelGrid>
+			           </p:outputPanel>
+		        </h:panelGrid>
+    		</p:dialog> 
+	    	<p:toolbar >
+	    	 	<f:facet name="left">
+	    	 		<p:outputLabel  value="bienvenue #{employeGeneral.nom} #{employeGeneral.prenom}" />
+	    	 	</f:facet>
+	    	 	<f:facet name="right">
+	    	 		<p:commandButton value="Compte" type="button" action="#{employe.showInfo}" onclick="PF('userDialog').show();" />
+	    	 		<p:commandButton value="Logout" action="#{employeGeneral.logout}" />
+	    	 	</f:facet>	    	 	
+	    	 </p:toolbar>
+	    	<br/>
+	    	<img  src="Images/esi.jpg" style="max-width: 64px;margin:auto" />
+			<br/>
+			<br/>
+	    	 
+			<p:slideMenu style="margin: auto;width :500px">
+		        <p:menuitem  style="font-family:Comic Sans MS " value="General" icon="ui-icon-document" action="general?faces-redirect=true"/>
+
+		        <p:separator />
+		        <p:menuitem  style="font-family:Comic Sans MS " value="Departement" icon="ui-icon-document" action="departement?faces-redirect=true" />
+		        
+		        <p:separator />
+		        <p:menuitem  style="font-family:Comic Sans MS " value="Service" icon="ui-icon-document" action="service?faces-redirect=true" />
+		        
+		        <p:separator />
+		        <p:menuitem style="font-family:Comic Sans MS " value="Personnel" icon="ui-icon-document" action="personnel?faces-redirect=true" />
+		    </p:slideMenu>
+			
+		    			 
+		    			
+    		 
+        </h:form>
+    </h:body>
+</html>
