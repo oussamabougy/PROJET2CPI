@@ -22,12 +22,11 @@ import org.primefaces.model.chart.LineChartModel;
 public class Directeur extends EmployeGeneral  {
 
 
-	private List<Enter> entrants = loadusers();
+	private List<Enter> entrants = loadusers();   // liste de pointage general (tout les employees)
 	
 	private List<Enter> filteredEntrants ;
 	
-
-
+	
 	public List<Enter> getFilteredEntrants() {
 		return filteredEntrants;
 	}

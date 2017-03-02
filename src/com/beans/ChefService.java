@@ -8,9 +8,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.model.chart.LineChartModel;
 
@@ -18,6 +21,142 @@ import org.primefaces.model.chart.LineChartModel;
 @SessionScoped
 public class ChefService extends Employe implements LienDirChefSer {
 	
+    private List<Enter> entrants = loadusers();  // liste de pointage d'un service
+	
+	private List<Enter> filteredEntrants ;     //   liste filtrer de pointage d'un service
+	
+	public List<Enter> getFilteredEntrants() {
+		return filteredEntrants;
+	}
+
+	public void setFilteredEntrants(List<Enter> filteredEntrants) {
+		this.filteredEntrants = filteredEntrants;
+	}
+
+	public List<Enter> getEntrants() {
+		return entrants;
+	}
+
+	public void setEntrants(List<Enter> entrants) {
+		this.entrants = entrants;
+	}
+
+	public int IdService(int matricule) //get the service_id of employee
+	{
+		PreparedStatement statement = null;
+        Connection connexion = null;
+        int IdService = 1 ;
+        
+        try 
+        {
+            connexion = Database.loadDatabase();
+	    	statement = connexion.prepareStatement("SELECT service_id FROM employee WHERE matricule = ? ;");
+	    	statement.setInt(1,matricule);
+
+			ResultSet resultat = statement.executeQuery();
+    	
+	    	if(resultat.next())
+	    	{
+
+	    		IdService = resultat.getInt("service_id") ;
+	    		System.out.print("IdService = " + IdService) ;
+
+	    	}
+    		
+        }catch (SQLException e) {}
+        finally 
+        {
+               try { if (connexion != null) connexion.close( );}
+               catch (SQLException ignore) {}
+        }
+  	
+        
+        return IdService ;
+	}
+
+	public List<Enter> loadusers()
+	{
+		
+		List<Enter> tab = new ArrayList<Enter>();
+		PreparedStatement statement = null;
+        ResultSet resultat = null;
+        Connection connexion = null;
+        connexion = Database.loadDatabase();      
+        try {
+            statement = connexion.prepareStatement("SELECT * FROM pointage ORDER BY matricule ;");
+
+            
+        	HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+    				.getExternalContext().getSession(false);
+        	
+        	int mat = (int) session.getAttribute("matricule") ;
+    	//	System.out.print("matricule = "+mat) ;
+
+    		int serviceId = IdService(mat) ;
+    	//	System.out.print("service_id = "+serviceId) ;
+        	
+    		
+            resultat = statement.executeQuery();
+            
+            // Récupération des données
+        	
+            while (resultat.next())
+            {
+            	 statement = connexion.prepareStatement("SELECT * FROM employee WHERE matricule = ? ;");
+                 statement.setInt(1, resultat.getInt("matricule"));
+                 ResultSet resultat2 = statement.executeQuery();
+                 
+                if(resultat2.next())
+                {
+                if(resultat2.getInt("service_id")==serviceId)
+                {
+
+            	Enter user = new Enter ();
+                user.setMatricule(resultat.getInt("matricule"));
+                user.setDate(resultat.getDate("jour"));
+                user.setTime(resultat.getTime("heure_pointage"));
+                statement = connexion.prepareStatement("SELECT * FROM employee WHERE matricule = ? ;");
+                
+                statement.setInt(1, resultat.getInt("matricule"));
+
+                // Exécution de la requête
+
+                ResultSet resultat1 = statement.executeQuery();
+                if(resultat1.next())
+                {
+                    user.setNom(resultat1.getString("nom"));
+                    user.setPrenom(resultat1.getString("prenom"));
+                }
+
+                tab.add(user) ;
+                
+                }
+                }
+            }
+                 
+        }
+        catch (SQLException e) {
+
+        } finally {
+
+            // Fermeture de la connexion
+
+            try {
+
+                if (resultat != null)
+                    resultat.close();
+
+                if (statement != null)
+                    statement.close();
+
+                if (connexion != null)
+                    connexion.close();
+
+            } catch (SQLException ignore) {
+            }
+        }
+		return tab;
+	}
 	
 	private LineChartModel abs1 = new LineChartModel() ;
 

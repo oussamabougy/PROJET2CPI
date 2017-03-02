@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.io.Serializable;
@@ -18,9 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-
 import java.sql.SQLException;
-
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
@@ -43,6 +42,7 @@ public class EmployeGeneral
 	private String oldpasswrd;
 	private String newpasswrd;
 	private String confirmpasswrd;
+	
 	
 	
 	
