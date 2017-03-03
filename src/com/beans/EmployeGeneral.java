@@ -8,7 +8,9 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +21,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+
 import java.sql.SQLException;
+
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
@@ -352,7 +356,7 @@ public class EmployeGeneral
 			    		{
 				    		diffHours = (t2.getTime() - resultat.getTime("heure_pointage").getTime() )/ (60 * 60 * 1000) % 24;// on calcule la difference entre l'heure de fin de travail réel et l'heure de fin de travail theorique
 				    		
-				    		nb_absence += (int)diffHours; //on ajoute la difference a la variable nb_absence
+				    		nb_absence += (int)(diffHours+1); //on ajoute la difference a la variable nb_absence
 
 			    		}
 		    		}		    		
@@ -448,11 +452,77 @@ public class EmployeGeneral
 		return true;		//sinon retourner vrai
 	}
 
-	//public <type> tauxAbscenceEmployeJour();
 	//public <type> tauxAbscenceEmployeMois();
 	//public <type> tauxAbscenceEmployeAnnee();
-	//public <type> tauxAbscenceCumuleEmployeJour();
-	//public <type> tauxAbscenceCumuleEmployeMois();
+	public ArrayList<Chart> tauxAbscenceCumuleEmployeJour(int matricule,Date d1,Date d2)
+	{
+		ArrayList<Chart> charts = tauxAbsenceEmployeeJour(1000011,d1, d2);
+		ArrayList<Chart> cumul = new ArrayList<Chart>(charts.size());
+		float taux_cumule=0;
+		int i=0;
+		charts.get(0).setTaux_absence(charts.get(0).getTaux_absence()*8);
+		cumul.add(0, charts.get(0));
+		taux_cumule=cumul.get(0).getTaux_absence();
+		for(i=1;i<charts.size();i++)
+		{
+			taux_cumule=taux_cumule+(charts.get(i).getTaux_absence() * 8);
+			charts.get(i).setTaux_absence(taux_cumule);
+			cumul.add(i, charts.get(i));
+			
+		}	
+		return cumul;
+	}
+	public ArrayList<ChartMois> tauxAbscenceCumuleEmployemois(int matricule,Date d1,Date d2)
+	{
+		Calendar calendarMin = new GregorianCalendar();
+		 SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 int Month1 = 0;
+		 int i=0;
+		 Date d = null;
+		 ArrayList<Chart> charts = tauxAbsenceEmployeeJour(1000011,d1, d2);//avoir la liste des taux absence employe
+		 ArrayList<ChartMois> cumul_mois = new ArrayList<ChartMois>();//
+		 try {
+			 d=myFormat.parse(charts.get(0).getDate());
+		 } catch (ParseException e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }
+		 calendarMin.setTime(d);
+		 int Month =calendarMin.get(Calendar.MONTH);// avoir le mois de la premiere date
+		 int absence_cumul = (int)(charts.get(0).getTaux_absence()*8) ;//nombre de journee absente de premier jour
+		
+		 for(i=1;i<charts.size();i++)
+		 {
+			 try {
+				 d=myFormat.parse(charts.get(i).getDate());
+			 } catch (ParseException e) {
+				 // TODO Auto-generated catch block
+				 e.printStackTrace();
+			 }
+			 calendarMin.setTime(d);
+			 Month1 =calendarMin.get(Calendar.MONTH);
+			 if (Month != Month1)
+			 {
+				 ChartMois mois = new ChartMois();
+				 mois.setMois(Month+1);
+				 mois.setJour_absence(absence_cumul/8);
+				 Month=Month1;
+				 cumul_mois.add(mois);
+				 absence_cumul=(int)(charts.get(i).getTaux_absence()*8);
+			 }
+			 else
+			 {
+				 absence_cumul=absence_cumul + (int)(charts.get(i).getTaux_absence()*8);
+				
+			 }
+			 
+		 }
+		 ChartMois mois = new ChartMois();
+		 mois.setMois(Month+1);
+		 mois.setJour_absence(absence_cumul/8);
+		 cumul_mois.add(mois);
+		return cumul_mois;
+ 	}
 	//public <type> tauxAbscenceCumuleEmployeAnnee();
 	//public <type> taux_abscence_justifier_employe_par_jour();
 	//public <type> taux_abscence_justifier_employe_par_mois();
@@ -540,5 +610,28 @@ public class EmployeGeneral
 	//public <type> salaire_a_avoir();
 	//public <type> historique_de_monpointage();
 	//public <type> get_role();
-
+	public void tester() 
+	{
+		//System.out.print(getRole(1000001));
+		 SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 String inputString1 = "2017-02-20";
+		 String inputString2 = "2017-02-23";
+		 Date d1 = null,d2 = null;
+		 try {
+		     d1 = myFormat.parse(inputString1);
+		     d2 = myFormat.parse(inputString2);
+		 } catch (ParseException e) {
+		     e.printStackTrace();
+		 }
+		 ArrayList<Chart> cumuli = tauxAbscenceCumuleEmployeJour(1000010,d1, d2);
+		 ArrayList<ChartMois> cumul =  tauxAbscenceCumuleEmployemois(1000010,d1, d2);
+		for(ChartMois chartmois:cumul)
+		{
+			System.out.print("Mois : "+chartmois.getMois()+" nb absence : "+chartmois.getJour_absence()+" jours");
+		}
+		for(Chart chart:cumuli)
+		{
+			System.out.print("jour : "+chart.getDate()+" nb absence : "+chart.getTaux_absence()+" heurs");
+		}
+	}
 }
