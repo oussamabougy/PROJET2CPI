@@ -276,7 +276,7 @@ public class EmployeGeneral
 		long diff = fin.getTime() - debut.getTime();
 		long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS); // Claculer le nombre de jour entre la date "debut" et la date "fin"
 		
-		ArrayList<Chart> charts = new ArrayList<Chart>(); //creer liste de type chart(journnée,taux absnece)
+		ArrayList<Chart> charts = new ArrayList<Chart>(); //creer liste de type chart(journnï¿½e,taux absnece)
 		
 		Time t1=null,t2=null; // t1 l"heure de debut de travail, t2 heure de fin
 		long diffHour = 0 ; // la difference entre t1 et t2;
@@ -284,7 +284,7 @@ public class EmployeGeneral
 		PreparedStatement statement = null;
 	    ResultSet resultat = null;
 	    Connection connexion = null;
-	    connexion = Database.loadDatabase(); //Connecter à la base de donner
+	    connexion = Database.loadDatabase(); //Connecter ï¿½ la base de donner
 	    try 
 	    {
 	    	statement =connexion.prepareStatement("SELECT planning_id FROM employee WHERE matricule = ? ;");// Selectionner
@@ -326,37 +326,37 @@ public class EmployeGeneral
 	    }
 	    
 		Date date = new	Date();
-				date.setTime(debut.getTime());		// on declare la variable "date", on l'intialize a debut et aprés chaque boucle on l'increment d'une journnée
+				date.setTime(debut.getTime());		// on declare la variable "date", on l'intialize a debut et aprï¿½s chaque boucle on l'increment d'une journnï¿½e
 		
 		for (int i=0;i <= (int)days; i++) //boucle qui va repeter "days" fois
 		{
-			if(dateVerify(date)) // verifier si la date "date" et une jounnée de travail, pas une jour de ferie ou weekend
+			if(dateVerify(date)) // verifier si la date "date" et une jounnï¿½e de travail, pas une jour de ferie ou weekend
 			{
-				Chart chart = new Chart(); //creer un chart(journée,toux absence)
+				Chart chart = new Chart(); //creer un chart(journï¿½e,toux absence)
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  // transformer le type date de la variable "date"
 				String date1 = sdf.format(date);		//au type string dans la variable "date1"
-				chart.setDate(date1);			//aprés on l'insère dans la variable "chart"
+				chart.setDate(date1);			//aprï¿½s on l'insï¿½re dans la variable "chart"
 
 				int nb_absence =(int)diffHour; // nombre d'absence maximale
 				
 				connexion = Database.loadDatabase();
 		        try 
 		        {
-			    	statement =connexion.prepareStatement("SELECT heure_pointage FROM pointage WHERE jour = ? AND matricule = ? ORDER BY heure_pointage;"); //recupere le donnée de pointage
-			    	statement.setString(1,date1);						// de la mydb.pointagtable pointage specifié par le matricule de l'employee
+			    	statement =connexion.prepareStatement("SELECT heure_pointage FROM pointage WHERE jour = ? AND matricule = ? ORDER BY heure_pointage;"); //recupere le donnï¿½e de pointage
+			    	statement.setString(1,date1);						// de la mydb.pointagtable pointage specifiï¿½ par le matricule de l'employee
 			    	statement.setInt(2,matricule);					// et la date "date1"
 			    	resultat=statement.executeQuery();
-		    		if(resultat.next())		// si l'employee a pointé dans la date "date1" (l'entrer)
+		    		if(resultat.next())		// si l'employee a pointï¿½ dans la date "date1" (l'entrer)
 		    		{
-			    		long diffHours = (resultat.getTime("heure_pointage").getTime()- t1.getTime()) / (60 * 60 * 1000) % 24;// on calcule la difference entre l'heure de debut de travail réel et l'heure de debut de travail theorique 
+			    		long diffHours = (resultat.getTime("heure_pointage").getTime()- t1.getTime()) / (60 * 60 * 1000) % 24;// on calcule la difference entre l'heure de debut de travail rï¿½el et l'heure de debut de travail theorique 
 			    		
 			    		nb_absence = (int)diffHours;
 			    		
-			    		if(resultat.next())	// si l'employee a pointé pour la 2eme fois (la sortie)
+			    		if(resultat.next())	// si l'employee a pointï¿½ pour la 2eme fois (la sortie)
 			    		{
-				    		diffHours = (t2.getTime() - resultat.getTime("heure_pointage").getTime() )/ (60 * 60 * 1000) % 24;// on calcule la difference entre l'heure de fin de travail réel et l'heure de fin de travail theorique
+				    		diffHours = (t2.getTime() - resultat.getTime("heure_pointage").getTime() )/ (60 * 60 * 1000) % 24;// on calcule la difference entre l'heure de fin de travail rï¿½el et l'heure de fin de travail theorique
 				    		
-				    		nb_absence += (int)(diffHours+1); //on ajoute la difference a la variable nb_absence
+				    		nb_absence += (int)(diffHours); //on ajoute la difference a la variable nb_absence
 
 			    		}
 		    		}		    		
@@ -381,10 +381,10 @@ public class EmployeGeneral
 		            }
 		        }
 		        	        
-		        chart.setTaux_absence((float)nb_absence/(float)diffHour); //on calcule le taux d'absence (nombre d'absence divisé par le nombre theorique de travail) et l'ajoute à la "chart"
+		        chart.setTaux_absence((float)nb_absence/(float)diffHour); //on calcule le taux d'absence (nombre d'absence divisï¿½ par le nombre theorique de travail) et l'ajoute ï¿½ la "chart"
 		        charts.add(chart);	// on ajoute la variable "chart" a la list "charts"
 			}
-			date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000); // on increment  la variable "date" d'une journnée  (24 * 60 * 60 * 1000 ms = 1 jour)
+			date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000); // on increment  la variable "date" d'une journnï¿½e  (24 * 60 * 60 * 1000 ms = 1 jour)
 		}
 
 	    // Fermeture de la connexion
@@ -403,9 +403,9 @@ public class EmployeGeneral
 		return charts;
 	}
 
-	public Boolean dateVerify(Date date) // verifier si la date "date" et une jounnée de travail, ou bien une jour de ferie ou weekend
+	public Boolean dateVerify(Date date) // verifier si la date "date" et une jounnï¿½e de travail, ou bien une jour de ferie ou weekend
 	{
-		String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);// si la date "date" et une journnée de weekend
+		String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);// si la date "date" et une journnï¿½e de weekend
 		if(day.equals("Friday") || day.equals("Saturday"))			//samedi ou b1 vendredi
 			return false;					//retourener faux
 		else		//sinon
@@ -452,22 +452,27 @@ public class EmployeGeneral
 		return true;		//sinon retourner vrai
 	}
 
-	//public <type> tauxAbscenceEmployeMois();
+	
 	//public <type> tauxAbscenceEmployeAnnee();
 	public ArrayList<Chart> tauxAbscenceCumuleEmployeJour(int matricule,Date d1,Date d2)
 	{
-		ArrayList<Chart> charts = tauxAbsenceEmployeeJour(1000011,d1, d2);
+		ArrayList<Chart> charts = tauxAbsenceEmployeeJour(matricule,d1, d2);
 		ArrayList<Chart> cumul = new ArrayList<Chart>(charts.size());
 		float taux_cumule=0;
 		int i=0;
-		charts.get(0).setTaux_absence(charts.get(0).getTaux_absence()*8);
-		cumul.add(0, charts.get(0));
-		taux_cumule=cumul.get(0).getTaux_absence();
+		Chart ch = new Chart();
+		ch=charts.get(0);
+		ch.setTaux_absence(ch.getTaux_absence()*8);
+		cumul.add(0, ch );
+		taux_cumule=ch.getTaux_absence();
 		for(i=1;i<charts.size();i++)
 		{
-			taux_cumule=taux_cumule+(charts.get(i).getTaux_absence() * 8);
-			charts.get(i).setTaux_absence(taux_cumule);
-			cumul.add(i, charts.get(i));
+			ch = new Chart();
+			taux_cumule+=(charts.get(i).getTaux_absence() * 8);
+			System.out.println("allllleze : " + taux_cumule + " " + charts.get(i).getTaux_absence() * 8 );
+			ch.setTaux_absence(taux_cumule);
+			ch.setDate(charts.get(i).getDate());
+			cumul.add(i, ch);
 			
 		}	
 		return cumul;
@@ -479,7 +484,7 @@ public class EmployeGeneral
 		 int Month1 = 0;
 		 int i=0;
 		 Date d = null;
-		 ArrayList<Chart> charts = tauxAbsenceEmployeeJour(1000011,d1, d2);//avoir la liste des taux absence employe
+		 ArrayList<Chart> charts = tauxAbsenceEmployeeJour(matricule,d1, d2);//avoir la liste des taux absence employe
 		 ArrayList<ChartMois> cumul_mois = new ArrayList<ChartMois>();//
 		 try {
 			 d=myFormat.parse(charts.get(0).getDate());
@@ -623,12 +628,14 @@ public class EmployeGeneral
 		 } catch (ParseException e) {
 		     e.printStackTrace();
 		 }
+		 ArrayList<Chart> abse = tauxAbsenceEmployeeJour(1000010,d1, d2);
 		 ArrayList<Chart> cumuli = tauxAbscenceCumuleEmployeJour(1000010,d1, d2);
-		 ArrayList<ChartMois> cumul =  tauxAbscenceCumuleEmployemois(1000010,d1, d2);
-		for(ChartMois chartmois:cumul)
-		{
-			System.out.print("Mois : "+chartmois.getMois()+" nb absence : "+chartmois.getJour_absence()+" jours");
-		}
+		 
+		 for(Chart chart:abse)
+			{
+				System.out.print("Mois : "+chart.getDate()+" nb absence : "+chart.getTaux_absence()+" jours");
+			}
+		
 		for(Chart chart:cumuli)
 		{
 			System.out.print("jour : "+chart.getDate()+" nb absence : "+chart.getTaux_absence()+" heurs");
