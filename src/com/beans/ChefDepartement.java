@@ -22,6 +22,11 @@ import org.primefaces.model.chart.LineChartModel;
 
 public class ChefDepartement extends EmployeGeneral implements LienDirChefDep {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String nomDepartement;
 	
     private List<Enter> entrants = loadusers(); // liste de pointage d'un departement
@@ -298,7 +303,7 @@ public class ChefDepartement extends EmployeGeneral implements LienDirChefDep {
 			}	
 		}	
 		
-		int	size=listEmployee.size()+1;//le	nombre	des	employee	de	ce	depatement
+		int	size=listEmployee.size();//le	nombre	des	employee	de	ce	depatement
 		
 		for	(int	k=0;k<absenceDepa.size();k++)//boucle	pour	faire	la	devision	sur	le	nombre	d'employee
 		{
@@ -311,6 +316,215 @@ public class ChefDepartement extends EmployeGeneral implements LienDirChefDep {
 		}	
 		return	absenceDepa;
 	}
+	 
+	public	ArrayList<ChartmoisTaux>	tauxAbsenceDepartementMois(String departement_nom,Date debut, Date fin)
+	{			
+		ArrayList<Integer>	listEmployee=new	ArrayList<Integer>();
+		listEmployee=employeeDeDepartement(departement_nom);//remplir la liste par les matricule	des	employee de service pour 
+		//faire la somme des taux la liste va contenir	/matricule0/matricule1/...../matriculei/....
+						
+					
+		ArrayList<ChartmoisTaux> absenceDepartement = tauxAbscenceeEmployeMoi(listEmployee.get(0), debut,  fin);//initialiser	la	liste	
+			//qui	va	contenir	le	taux	d'absecne	de	service	par	le	taux	d'absence	d'employee	0
+		
+		ArrayList<ChartmoisTaux> absenceEmployee=new	ArrayList<ChartmoisTaux>();
+	
+		
+		
+		for(int	i=1	;i<listEmployee.size();i++)
+		{			
+			absenceEmployee = tauxAbscenceeEmployeMoi(listEmployee.get(i),debut,fin);//affecter le taux	d'absence	de	chaque
+																				//	employee	a	la	liste	absenceEployee
+
+			for	(int	k=0;k<absenceDepartement.size();k++)	//boucle	pour	faire	la	somme	des	taux	
+															//et	le	mettre	dans	absence	Employee
+			{
+				ChartmoisTaux ch=new	ChartmoisTaux() ;
+				ch.setMois(absenceEmployee.get(k).getMois());
+				ch.setTaux_absence(absenceEmployee.get(k).getTaux_absence()	+	absenceDepartement.get(k).getTaux_absence());
+				absenceDepartement.set(k,ch);
+					
+				
+			}	
+		}	
+		
+		int	size=listEmployee.size();//le	nombre	des	employee	de	ce	service
+		System.out.println(size);
+		for	(int	k=0;k<absenceDepartement.size();k++)//boucle	pour	faire	la	devision	sur	le	nombre	d'employee
+		{
+			ChartmoisTaux ch=new	ChartmoisTaux() ;
+			ch.setMois(absenceEmployee.get(k).getMois());
+			ch.setTaux_absence((float)absenceDepartement.get(k).getTaux_absence()/(float)size);
+			absenceDepartement.set(k,ch);
+			
+			
+		}	
+		return	absenceDepartement;
+	}
+
+	public	ArrayList<ChartmoisTaux>	tauxAbsenceDepartementAnnee(String departement_nom,Date debut, Date fin)
+	{			
+		ArrayList<Integer>	listEmployee=new	ArrayList<Integer>();
+		listEmployee=employeeDeDepartement(departement_nom);//remplir la liste par les matricule	des	employee de service pour 
+		//faire la somme des taux la liste va contenir	/matricule0/matricule1/...../matriculei/....
+						
+					
+		ArrayList<ChartmoisTaux> absenceDepartement = tauxAbscenceeEmployeAnnee(listEmployee.get(0), debut,  fin);//initialiser	la	liste	
+			//qui	va	contenir	le	taux	d'absecne	de	service	par	le	taux	d'absence	d'employee	0
+		
+		ArrayList<ChartmoisTaux> absenceEmployee=new	ArrayList<ChartmoisTaux>();
+	
+		
+		
+		for(int	i=1	;i<listEmployee.size();i++)
+		{			
+			absenceEmployee = tauxAbscenceeEmployeAnnee(listEmployee.get(i),debut,fin);//affecter le taux	d'absence	de	chaque
+																				//	employee	a	la	liste	absenceEployee
+
+			for	(int	k=0;k<absenceDepartement.size();k++)	//boucle	pour	faire	la	somme	des	taux	
+															//et	le	mettre	dans	absence	Employee
+			{
+				ChartmoisTaux ch=new	ChartmoisTaux() ;
+				ch.setMois(absenceEmployee.get(k).getMois());
+				ch.setTaux_absence(absenceEmployee.get(k).getTaux_absence()	+	absenceDepartement.get(k).getTaux_absence());
+				absenceDepartement.set(k,ch);
+					
+				
+			}	
+		}	
+		
+		int	size=listEmployee.size();//le	nombre	des	employee	de	ce	service
+		System.out.println(size);
+		for	(int	k=0;k<absenceDepartement.size();k++)//boucle	pour	faire	la	devision	sur	le	nombre	d'employee
+		{
+			ChartmoisTaux ch=new	ChartmoisTaux() ;
+			ch.setMois(absenceEmployee.get(k).getMois());
+			ch.setTaux_absence((float)absenceDepartement.get(k).getTaux_absence()/(float)size);
+			absenceDepartement.set(k,ch);
+			
+			
+		}	
+		return	absenceDepartement;
+	}
+
+	
+	
+	
+	
+	public ArrayList<Chart> tauxAbsenceDepartementCumuleJour(String nomdepartement,Date d1,Date d2)
+	{
+		ArrayList<Integer>	listEmployee=new	ArrayList<Integer>();
+		listEmployee=employeeDeDepartement(nomdepartement);//remplir la liste par les matricule	des	employee de service pour 
+		//faire la somme des taux la liste va contenir	/matricule0/matricule1/...../matriculei/....
+						
+					
+		ArrayList<Chart> absenceDepartement = tauxAbscenceCumuleEmployeJour(listEmployee.get(0), debut,  fin);//initialiser	la	liste	
+			//qui	va	contenir	le	taux	d'absecne	de	service	par	le	taux	d'absence	d'employee	0
+		
+		ArrayList<Chart> absenceEmployee=new	ArrayList<Chart>();
+	
+		
+		
+		for(int	i=1	;i<listEmployee.size();i++)
+		{			
+			absenceEmployee = tauxAbscenceCumuleEmployeJour(listEmployee.get(i),debut,fin);//affecter le taux	d'absence	de	chaque
+																				//	employee	a	la	liste	absenceEployee
+
+			for	(int	k=0;k<absenceDepartement.size();k++)	//boucle	pour	faire	la	somme	des	taux	
+															//et	le	mettre	dans	absence	Employee
+			{
+				Chart ch=new	Chart() ;
+				ch.setDate(absenceEmployee.get(k).getDate());
+				ch.setTaux_absence(absenceEmployee.get(k).getTaux_absence()	+	absenceDepartement.get(k).getTaux_absence());
+				absenceDepartement.set(k,ch);
+				
+				
+			}	
+		}	
+		
+		
+		
+		for	(int	k=1;k<absenceDepartement.size();k++)//boucle	pour	faire	la	devision	sur	le	nombre	d'employee
+		{
+			Chart ch=new	Chart() ;
+			ch.setDate(absenceEmployee.get(k).getDate());
+			ch.setTaux_absence(absenceDepartement.get(k).getTaux_absence()+ absenceDepartement.get(k-1).getTaux_absence());
+			absenceDepartement.set(k,ch);
+			
+			
+		}	
+		return	absenceDepartement;
+	}
+	
+	public ArrayList<ChartMois> tauxAbsenceDepartementCumuleMois(String nomdepartement,Date d1,Date d2)
+	{
+		ArrayList<Integer>	listEmployee=new	ArrayList<Integer>();
+		listEmployee=employeeDeDepartement(nomdepartement);//remplir la liste par les matricule	des	employee de service pour 
+		//faire la somme des taux la liste va contenir	/matricule0/matricule1/...../matriculei/....
+						
+					
+		ArrayList<ChartMois> absenceDepartementemois = tauxAbscenceCumuleEmployemois(listEmployee.get(0), debut,  fin);//initialiser	la	liste	
+			//qui	va	contenir	le	taux	d'absecne	de	service	par	le	taux	d'absence	d'employee	0
+		
+		ArrayList<ChartMois> absenceEmployee=new	ArrayList<ChartMois>();
+	
+		
+		
+		for(int	i=1	;i<listEmployee.size();i++)
+		{			
+			absenceEmployee = tauxAbscenceCumuleEmployemois(listEmployee.get(i),debut,fin);//affecter le taux	d'absence	de	chaque
+																				//	employee	a	la	liste	absenceEployee
+
+			for	(int	k=0;k<absenceDepartementemois.size();k++)	//boucle	pour	faire	la	somme	des	taux	
+															//et	le	mettre	dans	absence	Employee
+			{
+				ChartMois ch=new	ChartMois() ;
+				ch.setMois(absenceEmployee.get(k).getMois());
+				ch.setJour_absence(absenceEmployee.get(k).getJour_absence()	+	absenceDepartementemois.get(k).getJour_absence());
+				absenceDepartementemois.set(k,ch);
+				
+				
+			}
+		}
+		return absenceDepartementemois;
+	}
+		
+	public ArrayList<ChartMois> tauxAbsenceDepartementCumuleAnnee(String nomdepartement,Date d1,Date d2)
+	{
+		ArrayList<Integer>	listEmployee=new	ArrayList<Integer>();
+		listEmployee=employeeDeDepartement(nomdepartement);//remplir la liste par les matricule	des	employee de service pour 
+		//faire la somme des taux la liste va contenir	/matricule0/matricule1/...../matriculei/....
+						
+					
+		ArrayList<ChartMois> absenceDepartementannee = tauxAbscenceCumuleEmployeAnnee(listEmployee.get(0), debut,  fin);//initialiser	la	liste	
+			//qui	va	contenir	le	taux	d'absecne	de	service	par	le	taux	d'absence	d'employee	0
+		
+		ArrayList<ChartMois> absenceEmployee=new	ArrayList<ChartMois>();
+	
+		
+		
+		for(int	i=1	;i<listEmployee.size();i++)
+		{			
+			absenceEmployee = tauxAbscenceCumuleEmployeAnnee(listEmployee.get(i),debut,fin);//affecter le taux	d'absence	de	chaque
+																				//	employee	a	la	liste	absenceEployee
+
+			for	(int	k=0;k<absenceDepartementannee.size();k++)	//boucle	pour	faire	la	somme	des	taux	
+															//et	le	mettre	dans	absence	Employee
+			{
+				ChartMois ch=new	ChartMois() ;
+				ch.setMois(absenceEmployee.get(k).getMois());
+				ch.setJour_absence(absenceEmployee.get(k).getJour_absence()	+	absenceDepartementannee.get(k).getJour_absence());
+				absenceDepartementannee.set(k,ch);
+				
+				
+			}
+		}
+		return absenceDepartementannee;
+	}
+	
+	
+	
+	
 	
 	public void defineChart2() 
 	{

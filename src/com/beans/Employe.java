@@ -1,5 +1,6 @@
 package com.beans;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,20 +10,28 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 @ManagedBean
+@RequestScoped
 @SessionScoped
-public class Employe extends EmployeGeneral {
+@ViewScoped
+public class Employe extends EmployeGeneral implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String nomService;
 	protected String nomDepartement;
 	
 	
 
-    private List<Enter> entrants = loadusers(); // liste de pointage d'un seul employee
+    private List<Enter> entrants; // liste de pointage d'un seul employee
 	
 	private List<Enter> filteredEntrants ;
 	
@@ -123,7 +132,7 @@ public class Employe extends EmployeGeneral {
 	}
 	
 
-	@PostConstruct
+	
 	public void showInfo(){
 		PreparedStatement statement = null;
         ResultSet resultat = null;
