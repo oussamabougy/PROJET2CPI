@@ -78,12 +78,7 @@
                 <h:graphicImage value="/Images/csv.jpg"  width="48"/> 
                 <p:dataExporter type="csv" target="tbl" fileName="Data" pageOnly="true" />
          </h:commandLink>
- 
-       <!--  <h:commandLink>
-               <p:graphicImage name="images/ok.png" />
-              <p:dataExporter type="xml" target="tbl" fileName="cars" pageOnly="true" />
-        </h:commandLink>
-        -->  
+
            </p:panel>
           </h:panelGrid> 
 		        </p:tab>
@@ -91,26 +86,22 @@
 		        	<p:panel id="panel" header="Taux d'absence" style="width:70%;margin:auto">
 		            <h:panelGrid columns="4" cellpadding="5" style="margin:auto">
 		                <h:outputLabel for="debut" value="De : " />
-	        			<p:calendar mindate="1/1/00" maxdate="2/27/17" id="debut"  value="#{employeGeneral.debut}"  label="date" />
+	        			<p:calendar mindate="1/1/00" maxdate="3/6/17" id="debut"  value="#{employeGeneral.debut}"  label="date" />
 	        			
 	        			<h:outputLabel for="fin" value="Ã  : " />
-	        			<p:calendar mindate="1/1/00"  maxdate="2/28/17" id="fin" value="#{employeGeneral.fin}" label="date" />
+	        			<p:calendar mindate="1/1/00"  maxdate="3/7/17" id="fin" value="#{employeGeneral.fin}" label="date" />
 		            </h:panelGrid>
 					
 					<h:commandButton value="Afficher" action="#{employeGeneral.defineChart}"  />
 		            
 		        </p:panel>
-		        	<p:chart type="line" model="#{employeGeneral.abs}" style="height:300px;"/>
+	        			 <p:chart type="line" model="#{employeGeneral.abs}" style="height:300px;"/>
+	        			 <p:chart type="line" model="#{employeGeneral.abs1}" style="height:300px;"/>
+	        			 <p:chart type="bar"  model="#{employeGeneral.abs2}" style="height:300px"/>
+        	
 		        </p:tab>
 		    </p:tabView>
-	   		
-	   		
-
-    		
-   
-		    			 
-		    			
-    		 
+		 
         </h:form>
     </h:body>
 </html>

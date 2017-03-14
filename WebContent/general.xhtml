@@ -94,10 +94,10 @@
 		        	<p:panel id="panel" header="Taux d'absence" style="width:70%;margin:auto">
 		            <h:panelGrid columns="4" cellpadding="5" style="margin:auto">
 		                <h:outputLabel for="debut" value="De : " />
-	        			<p:calendar mindate="1/1/00" maxdate="2/27/17" id="debut"  value="#{directeur.debut}"  label="date" />
+	        			<p:calendar mindate="1/1/00" maxdate="3/6/17" id="debut"  value="#{directeur.debut}"  label="date" />
 	        			
 	        			<h:outputLabel for="fin" value="Ã  : " />
-	        			<p:calendar mindate="1/1/00"  maxdate="2/28/17" id="fin" value="#{directeur.fin}" label="date" />
+	        			<p:calendar mindate="1/1/00"  maxdate="3/7/17" id="fin" value="#{directeur.fin}" label="date" />
 		            </h:panelGrid>
 					
 					<h:commandButton value="Afficher" action="#{directeur.defineChart1}" update="hh" />
