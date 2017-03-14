@@ -38,7 +38,7 @@ import org.primefaces.model.chart.LineChartModel;
 @SessionScoped
 @ViewScoped
 
-public class EmployeGeneral implements Serializable  
+public abstract class  EmployeGeneral implements Serializable  
 {
 	/**
 	 * 
