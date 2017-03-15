@@ -5,8 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import com.connect.*;
 
 @ManagedBean
 @RequestScoped
@@ -30,6 +30,7 @@ public class Employe extends EmployeGeneral implements Serializable {
 	protected String nomDepartement;
 	
 	
+
 
     private List<Enter> entrants; // liste de pointage d'un seul employee
 	
@@ -116,8 +117,6 @@ public class Employe extends EmployeGeneral implements Serializable {
 		return tab;
 	}
 
-	
-	
 	public String getNomService() {
 		return nomService;
 	}

@@ -1,15 +1,12 @@
 package com.beans;
 
+
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -18,11 +15,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-import org.primefaces.model.chart.LineChartModel;
+
 
 @ManagedBean
 @RequestScoped
 @SessionScoped
+
 @ViewScoped
 public class ChefService extends Employe implements LienDirChefSer,Serializable {
 	
@@ -53,7 +51,8 @@ public class ChefService extends Employe implements LienDirChefSer,Serializable 
 		this.entrants = entrants;
 	}
 
-	public int IdService(int matricule) //get the service_id of employee
+
+	public int idService(int matricule) //get the service_id of employee
 	{
 		PreparedStatement statement = null;
         Connection connexion = null;
@@ -86,109 +85,11 @@ public class ChefService extends Employe implements LienDirChefSer,Serializable 
         return IdService ;
 	}
 
-	public List<Enter> loadusers()
-	{
-		
-		List<Enter> tab = new ArrayList<Enter>();
-		PreparedStatement statement = null;
-        ResultSet resultat = null;
-        Connection connexion = null;
-        connexion = Database.loadDatabase();      
-        try {
-            statement = connexion.prepareStatement("SELECT * FROM pointage ORDER BY matricule ;");
-
-            
-        	HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-    				.getExternalContext().getSession(false);
-        	
-        	int mat = (int) session.getAttribute("matricule") ;
-    	//	System.out.print("matricule = "+mat) ;
-
-    		int serviceId = IdService(mat) ;
-    	//	System.out.print("service_id = "+serviceId) ;
-        	
-    		
-            resultat = statement.executeQuery();
-            
-            // Récupération des données
-        	
-            while (resultat.next())
-            {
-            	 statement = connexion.prepareStatement("SELECT * FROM employee WHERE matricule = ? ;");
-                 statement.setInt(1, resultat.getInt("matricule"));
-                 ResultSet resultat2 = statement.executeQuery();
-                 
-                if(resultat2.next())
-                {
-                if(resultat2.getInt("service_id")==serviceId)
-                {
-
-            	Enter user = new Enter ();
-                user.setMatricule(resultat.getInt("matricule"));
-                user.setDate(resultat.getDate("jour"));
-                user.setTime(resultat.getTime("heure_pointage"));
-                statement = connexion.prepareStatement("SELECT * FROM employee WHERE matricule = ? ;");
-                
-                statement.setInt(1, resultat.getInt("matricule"));
-
-                // Exécution de la requête
-
-                ResultSet resultat1 = statement.executeQuery();
-                if(resultat1.next())
-                {
-                    user.setNom(resultat1.getString("nom"));
-                    user.setPrenom(resultat1.getString("prenom"));
-                }
-
-                tab.add(user) ;
-                
-                }
-                }
-            }
-                 
-        }
-        catch (SQLException e) {
-
-        } finally {
-
-            // Fermeture de la connexion
-
-            try {
-
-                if (resultat != null)
-                    resultat.close();
-
-                if (statement != null)
-                    statement.close();
-
-                if (connexion != null)
-                    connexion.close();
-
-            } catch (SQLException ignore) {
-            }
-        }
-		return tab;
-	}
-	
-	private LineChartModel abs1 = new LineChartModel() ;
-
-	public LineChartModel getAbs1() {
-		return abs1;
-	}
-	public void setAbs1(LineChartModel abs1) {
-		this.abs1 = abs1;
-	}
-	
-	ArrayList<String> services = defineService();
 	
 	
-	public ArrayList<String> getServices() {
-		return services;
-	}
-	public void setServices(ArrayList<String> services) {
-		this.services = services;
-	}
 	
+	
+
 	public ArrayList<String> defineService()
 	{
 		PreparedStatement statement;
@@ -570,4 +471,5 @@ public class ChefService extends Employe implements LienDirChefSer,Serializable 
 			System.out.print("annee : "+chartmoistaux.getMois()+" nb absence : "+chartmoistaux.getTaux_absence()+" %");
 		}
 	}
+
 }
