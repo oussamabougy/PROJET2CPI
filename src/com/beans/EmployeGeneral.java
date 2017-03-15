@@ -16,19 +16,32 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.connect.*;
+
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import java.sql.SQLException;
 
 
 
 
 @ManagedBean
+@RequestScoped
 @SessionScoped
+@ViewScoped
 
-public class EmployeGeneral 
+public abstract class  EmployeGeneral implements Serializable  
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int matricule;
 	protected String nom;
 	protected String prenom;
@@ -223,6 +236,152 @@ public class EmployeGeneral
 		return charts;
 	}
 
+<<<<<<< HEAD
+	public ArrayList<ChartmoisTaux> tauxAbscenceeEmployeMoi(int matricule,Date d1,Date d2)
+	{
+		 Calendar calendarMin = new GregorianCalendar();
+		 SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 int Month=0;	
+		 int Month1 = 0;
+		 int days=1;
+		 float absence=0;
+		 int i=0;
+		 Date d = null;
+		 
+		 ArrayList<Chart> charts = tauxAbsenceEmployeeJour(matricule,d1, d2);//avoir la liste des taux absence employe
+		 ArrayList<ChartmoisTaux> tauxMois = new ArrayList<ChartmoisTaux>();//
+		
+		 try 
+		 {
+			 d=myFormat.parse(charts.get(0).getDate());
+		 }
+		 catch (ParseException e) {
+			 e.printStackTrace();
+		 }
+		 calendarMin.setTime(d);
+		 Month =calendarMin.get(Calendar.MONTH);// avoir le mois de la premiere date
+		 absence = charts.get(0).getTaux_absence() ;//nombre de heure absente de premier jour
+		
+
+		 for(i=1;i<charts.size();i++)
+		 {
+			 try 
+			 {
+				 d=myFormat.parse(charts.get(i).getDate());
+			 }
+			 catch (ParseException e) 
+			 {
+				 e.printStackTrace();
+			 }
+			 
+			 calendarMin.setTime(d);
+			 Month1 =calendarMin.get(Calendar.MONTH);
+			 
+				 if (Month != Month1) //verifier est ce que c'est un  nouveau moi
+				 {
+				 	 //enregestrer le moi dans la liste
+					 ChartmoisTaux mois = new ChartmoisTaux();
+					 mois.setMois(Month+1);
+					 mois.setTaux_absence(absence/days);
+					 tauxMois.add(mois); 
+					
+ 					 //renitialiser les var
+					 Month=Month1;		
+					 days=1;
+				 	 absence=charts.get(i).getTaux_absence();
+			 	}
+				 else
+				 {
+					 //incrementer le nombre de jour et ajouter le taux d'absence de ce jour
+					 days++;
+					 absence+=charts.get(i).getTaux_absence();
+				 }
+			 
+		 }
+		 
+		 //enregestrer le dernier  moi dans la liste
+		 ChartmoisTaux mois = new ChartmoisTaux();
+		 mois.setMois(Month+1);
+		 mois.setTaux_absence(absence/days);
+		 tauxMois.add(mois); 
+		 
+		 
+		return tauxMois;
+	}
+	
+	public ArrayList<ChartmoisTaux> tauxAbscenceeEmployeAnnee(int matricule,Date d1,Date d2)
+	{
+		Calendar calendarMin = new GregorianCalendar();
+		 SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 int year=0;	
+		 int year1 = 0;
+		 int days=1;
+		 float absence=0;
+		 int i=0;
+		 Date d = null;
+		 
+		 ArrayList<Chart> charts = tauxAbsenceEmployeeJour(matricule,d1, d2);//avoir la liste des taux absence employe
+		 ArrayList<ChartmoisTaux> tauxAnnee = new ArrayList<ChartmoisTaux>();//
+		
+		 try 
+		 {
+			 d=myFormat.parse(charts.get(0).getDate());
+		 }
+		 catch (ParseException e) {
+			 e.printStackTrace();
+		 }
+		 calendarMin.setTime(d);
+		 year =calendarMin.get(Calendar.YEAR);// avoir le mois de la premiere date
+		 absence = charts.get(0).getTaux_absence() ;//nombre de heure absente de premier jour
+		
+
+		 for(i=1;i<charts.size();i++)
+		 {
+			 try 
+			 {
+				 d=myFormat.parse(charts.get(i).getDate());
+			 }
+			 catch (ParseException e) 
+			 {
+				 e.printStackTrace();
+			 }
+			 
+			 calendarMin.setTime(d);
+			 year1 =calendarMin.get(Calendar.YEAR);
+			 
+				 if (year != year1) //verifier est ce que c'est un  nouveau moi
+				 {
+				 	 //enregestrer le moi dans la liste
+					 ChartmoisTaux annee = new ChartmoisTaux();
+					 annee.setMois(year);
+					 annee.setTaux_absence(absence/days);
+					 tauxAnnee.add(annee); 
+					
+					 //renitialiser les var
+					 year=year1;		
+					 days=1;
+				 	 absence=charts.get(i).getTaux_absence();
+			 	}
+				 else
+				 {
+					 //incrementer le nombre de jour et ajouter le taux d'absence de ce jour
+					 days++;
+					 absence+=charts.get(i).getTaux_absence();
+				 }
+			 
+		 }
+		 
+		 //enregestrer le dernier  moi dans la liste
+		 ChartmoisTaux annee = new ChartmoisTaux();
+		 annee.setMois(year);
+		 annee.setTaux_absence(absence/days);
+		 tauxAnnee.add(annee); 
+		 
+		 
+		return tauxAnnee;
+	}
+	
+
 
 	public Map<String,Integer> tauxAbsenceEmployeeJourParHeur(int matricule,Date debut, Date fin)// Calculer le taux d'absence d'un employee(matricule) de la date "debut" jusqua la date "fin"
 	{				
@@ -356,6 +515,7 @@ public class EmployeGeneral
 	}
 	
 	public Boolean dateVerify(Date date) // verifier si la date "date" et une jounnée de travail, ou bien une jour de ferie ou weekend
+
 	{
 		String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);// si la date "date" et une journnï¿½e de weekend
 		if(day.equals("Friday") || day.equals("Saturday"))			//samedi ou b1 vendredi
@@ -460,7 +620,57 @@ public class EmployeGeneral
 		 cumul_mois.put(Month,absence_cumul/8);
 		return cumul_mois;
  	}
-	//public <type> tauxAbscenceCumuleEmployeAnnee();
+	public ArrayList<ChartMois> tauxAbscenceCumuleEmployeAnnee(int matricule,Date d1,Date d2)
+	{
+		Calendar calendarMin = new GregorianCalendar();
+		 SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 int year1 = 0;
+		 int i=0;
+		 Date d = null;
+		 ArrayList<Chart> charts = tauxAbsenceEmployeeJour(matricule,d1, d2);//avoir la liste des taux absence employe
+		 ArrayList<ChartMois> cumul_annee = new ArrayList<ChartMois>();//
+		 try {
+			 d=myFormat.parse(charts.get(0).getDate());
+		 } catch (ParseException e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }
+		 calendarMin.setTime(d);
+		 int year =calendarMin.get(Calendar.YEAR);// avoir le mois de la premiere date
+		 int absence_cumul = (int)(charts.get(0).getTaux_absence()*8) ;//nombre de journee absente de premier jour
+		
+		 for(i=1;i<charts.size();i++)
+		 {
+			 try {
+				 d=myFormat.parse(charts.get(i).getDate());
+			 } catch (ParseException e) {
+				 // TODO Auto-generated catch block
+				 e.printStackTrace();
+			 }
+			 calendarMin.setTime(d);
+			 year1 =calendarMin.get(Calendar.YEAR);
+			 if (year != year1)
+			 {
+				 ChartMois annee = new ChartMois();
+				 annee.setMois(year);
+				 annee.setJour_absence(absence_cumul/8);
+				 year=year1;
+				 cumul_annee.add(annee);
+				 absence_cumul=(int)(charts.get(i).getTaux_absence()*8);
+			 }
+			 else
+			 {
+				 absence_cumul=absence_cumul + (int)(charts.get(i).getTaux_absence()*8);
+				
+			 }
+			 
+		 }
+		 ChartMois annee = new ChartMois();
+		 annee.setMois(year);
+		 annee.setJour_absence(absence_cumul/8);
+		 cumul_annee.add(annee);
+		return cumul_annee;
+ 	}
 	//public <type> taux_abscence_justifier_employe_par_jour();
 	//public <type> taux_abscence_justifier_employe_par_mois();
 	//public <type> taux_abscence_justifier_employe_par_annee();
@@ -602,5 +812,5 @@ public class EmployeGeneral
 		return charts;
 	}*/
 	
-	
+
 }
