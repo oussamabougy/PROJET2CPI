@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -41,10 +42,12 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
+import com.connect.Database;
+
 @ManagedBean
 @SessionScoped
 
-public class EmployeGeneral 
+public class EmployeGeneral1 
 {
 	protected int matricule = 5;
 	protected String nom = "Mohamed";

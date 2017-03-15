@@ -12,17 +12,17 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
 
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css"/>
-  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css"/>
-  <link rel="stylesheet" href="plugins/iCheck/flat/blue.css"/>
-  <link rel="stylesheet" href="plugins/morris/morris.css"/>
-  <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
-  <link rel="stylesheet" href="plugins/datepicker/datepicker3.css"/>
-  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css"/>
-  <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"/>
+  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css"/>
+  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css"/>
+  <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css"/>
+  <link rel="stylesheet" href="../plugins/morris/morris.css"/>
+  <link rel="stylesheet" href="../plugins/jvectormap/jquery-jvectormap-1.2.2.css"/>
+  <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css"/>
+  <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css"/>
+  <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"/>
 
 
 
@@ -34,9 +34,9 @@
     			<!-- Logo -->
     		<a href="index.xhtml" class="logo">
       			<!-- mini logo for sidebar mini 50x50 pixels -->
-      			<span class="logo-mini"><img src="dist/img/esi2.png" width="30" height="20" alt="User Image"/></span>
+      			<span class="logo-mini"><img src="../dist/img/esi2.png" width="30" height="20" alt="User Image"/></span>
       			<!-- logo for regular state and mobile devices -->
-      			<span class="logo-lg"><img src="dist/img/esi2.png" width="60" height="40" alt="User Image"/></span>
+      			<span class="logo-lg"><img src="../dist/img/esi2.png" width="60" height="40" alt="User Image"/></span>
     		</a>
     		<!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -50,16 +50,16 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user.jpg" class="user-image" alt="User Image"/>
-              <span class="hidden-xs">#{employeGeneral.nom} #{employeGeneral.prenom}</span>
+              <img src="../dist/img/user.jpg" class="user-image" alt="User Image"/>
+              <span class="hidden-xs">#{employeGeneral1.nom} #{employeGeneral1.prenom}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user.jpg" class="img-circle" alt="User Image"/>
+                <img src="../dist/img/user.jpg" class="img-circle" alt="User Image"/>
 
                 <p>
-                  #{employeGeneral.nom} #{employeGeneral.prenom} - #{employeGeneral.role}
+                  #{employeGeneral1.nom} #{employeGeneral1.prenom} - #{employeGeneral1.role}
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -101,10 +101,10 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user.jpg" class="img-circle" alt="User Image"/>
+          <img src="../dist/img/user.jpg" class="img-circle" alt="User Image"/>
         </div>
         <div class="pull-left info">
-          <p>#{employeGeneral.nom} #{employeGeneral.prenom}</p>
+          <p>#{employeGeneral1.nom} #{employeGeneral1.prenom}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -126,7 +126,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-			<ui:repeat var="o" value="#{employeGeneral.listeDepartement}" varStatus="status">
+			<ui:repeat var="o" value="#{employeGeneral1.listeDepartement}" varStatus="status">
 				 <li>
 				    <a href="#" ><i class="fa fa-circle-o"></i> <span style="white-space: pre-wrap;">#{o}</span>
 				    <span class="pull-right-container">
@@ -149,7 +149,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-			<ui:repeat var="o" value="#{employeGeneral.listeService}" varStatus="status">
+			<ui:repeat var="o" value="#{employeGeneral1.listeService}" varStatus="status">
 				 <li>
 				    <a href="#" ><i class="fa fa-circle-o"></i> <span style="white-space: pre-wrap;">#{o}</span>
 				    <span class="pull-right-container">
@@ -166,7 +166,7 @@
         </li>
 		<li><a href="#"><i class="fa fa-circle-o"></i> <span>Personnel</span></a></li>
 		
-        <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+        <li><a href="../documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
 
       </ul>
     </section>
@@ -195,7 +195,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>#{employeGeneral.abs}h</h3>
+              <h3>#{employeGeneral1.abs}h</h3>
 
               <p>Nombre d'absence</p>
             </div>
@@ -210,7 +210,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>#{employeGeneral.absJustifie}h</h3>
+              <h3>#{employeGeneral1.absJustifie}h</h3>
 
               <p>Nombre d'absence justifie</p>
             </div>
@@ -225,7 +225,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>#{employeGeneral.absNonJustifie}h</h3>
+              <h3>#{employeGeneral1.absNonJustifie}h</h3>
 
               <p>Nombre d'absence non justifie</p>
             </div>
@@ -240,7 +240,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>#{employeGeneral.absMoy}h</h3>
+              <h3>#{employeGeneral1.absMoy}h</h3>
 
               <p>Moyenne des absence</p>
             </div>
@@ -321,7 +321,30 @@
         <!-- /.col (LEFT) -->
         <div class="col-md-6">
           <!-- Custom tabs (Charts with tabs)-->
-          <br></br><br></br><br></br><br></br><br></br><br></br>
+			<div class="box box-success">
+      
+            <div class="box-body">
+       
+              
+
+              <!-- radio -->
+              <div class="form-group">
+                <label>
+                  <div class="iradio_minimal-blue checked" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="radio" name="r1" class="minimal" checked="" style="position: absolute; opacity: 0;"/><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                	Par jour 
+                </label>
+                <label>
+                  <div class="iradio_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="radio" name="r1" class="minimal" style="position: absolute; opacity: 0;"/><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                	Par moins
+                </label>
+                <label>
+                  <div class="iradio_minimal-blue disabled" aria-checked="false" aria-disabled="true" style="position: relative;"><input type="radio" name="r1" class="minimal" disabled="" style="position: absolute; opacity: 0;"/><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                  Par année
+                </label>
+              </div>
+
+              </div>
+           </div>
            <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Line Chart</h3>
@@ -365,8 +388,8 @@
       <!-- /.row (main row) -->
 		<div class="col-md-12">
 			<h:form> 
-		       <p:dataTable id="tbl" var="enter" value="#{employeGeneral.entrants}"  widgetVar="carsTable"
-                 emptyMessage="No records found ." filteredValue="#{employeGeneral.filteredEntrants}"
+		       <p:dataTable id="tbl" var="enter" value="#{employeGeneral1.entrants}"  widgetVar="carsTable"
+                 emptyMessage="No records found ." filteredValue="#{employeGeneral1.filteredEntrants}"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                  paginator="true" rows="10" style="margin-bottom:20px">
       
@@ -422,12 +445,12 @@
             </h:commandLink>
             
               <h:commandLink>
-                <h:graphicImage value="/Images/xls.jpg"  width="48"/> 
+                <h:graphicImage value="../Images/xls.jpg"  width="48"/> 
                <p:dataExporter type="xls" target="tbl" fileName="Data" />
             </h:commandLink> 
   
            <h:commandLink>
-                <h:graphicImage value="/Images/csv.jpg"  width="48"/> 
+                <h:graphicImage value="../Images/csv.jpg"  width="48"/> 
                 <p:dataExporter type="csv" target="tbl" fileName="Data" pageOnly="true" />
          </h:commandLink>
 
@@ -457,7 +480,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -465,39 +488,40 @@
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.6 -->
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="plugins/morris/morris.min.js"></script>
+<script src="../plugins/morris/morris.min.js"></script>
 <!-- Sparkline -->
-<script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="../plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
-<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- jQuery Knob Chart -->
-<script src="plugins/knob/jquery.knob.js"></script>
+<script src="../plugins/knob/jquery.knob.js"></script>
 <!-- daterangepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
-<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
-<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Slimscroll -->
-<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
-<script src="plugins/fastclick/fastclick.js"></script>
+<script src="../plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
+<script src="../dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
+<script src="../dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="../dist/js/demo.js"></script>
 
 <script>
   $(function () {
     "use strict";
     $('#reservation').daterangepicker();
+    
     // AREA CHART
     var area = new Morris.Area({
       element: 'revenue-chart',
@@ -520,14 +544,15 @@
       lineColors: ['#a0d0e0', '#3c8dbc'],
       hideHover: 'auto'
     });
-
+  
+    
     // LINE CHART
     var line = new Morris.Line({
       element: 'line-chart',
       resize: true,
       data: [
 
-		#{employeGeneral.chartLine}
+		#{employeGeneral1.chartLine}
       ],
       xkey: 'y',
       ykeys: ['item1'],
@@ -554,7 +579,7 @@
       element: 'bar-chart',
       resize: true,
       data: [
-		#{employeGeneral.chartBar}
+		#{employeGeneral1.chartBar}
       ],
       barColors: ['#00a65a', '#f56954'],
       xkey: 'y',
@@ -563,6 +588,12 @@
       hideHover: 'auto'
     });
   });
+</script>
+<script>
+	$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+	checkboxClass: 'icheckbox_minimal-blue',
+	radioClass: 'iradio_minimal-blue'
+	});
 </script>
 
 </h:body>
